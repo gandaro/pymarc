@@ -62,11 +62,11 @@ class Field(six.Iterator):
         [3] http://www.loc.gov/marc/mnemonics.html
         """
         if self.is_control_field():
-            text = '=%s  %s' % (self.tag, self.data.replace(' ','\\'))
+            text = '=%s  %s' % (self.tag, self.data.replace(' ', '\\'))
         else:
             text = '=%s  ' % (self.tag)
             for indicator in self.indicators:
-                if indicator in (' ','\\'):
+                if indicator in (' ', '\\'):
                     text += '\\'
                 else:
                     text += '%s' % indicator
