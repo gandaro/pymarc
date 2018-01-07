@@ -29,9 +29,9 @@ class Field(six.Iterator):
 
     """
     def __init__(self, tag, indicators=None, subfields=None, data=u''):
-        if indicators == None:
+        if indicators is None:
             indicators = []
-        if subfields == None:
+        if subfields is None:
             subfields = []
         indicators = [six.text_type(x) for x in indicators]
 
