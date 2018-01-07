@@ -1,15 +1,15 @@
 "The pymarc.field file."
 
+import itertools
 import logging
 
-from six import Iterator
-from six import text_type
+import six
 
 from pymarc.constants import SUBFIELD_INDICATOR, END_OF_FIELD
 from pymarc.marc8 import marc8_to_unicode
 
 
-class Field(Iterator):
+class Field(six.Iterator):
     """
     Field() pass in the field tag, indicators and subfields for the tag.
 
@@ -33,7 +33,7 @@ class Field(Iterator):
             indicators = []
         if subfields == None:
             subfields = []
-        indicators = [text_type(x) for x in indicators]
+        indicators = [six.text_type(x) for x in indicators]
 
         # attempt to normalize integer tags if necessary
         try:
@@ -48,10 +48,6 @@ class Field(Iterator):
             self.indicator1, self.indicator2 = self.indicators = indicators
             self.subfields = subfields
 
-    def __iter__(self):
-        self.__pos = 0
-        return self
-
     def __str__(self):
         """
         A Field object in a string context will return the tag, indicators
@@ -59,7 +55,7 @@ class Field(Iterator):
         and [2] for further reference. Special character mnemonic strings
         have yet to be implemented (see [3]), so be forewarned. Note also
         for complete MARCMaker compatibility, you will need to change your
-        newlines to DOS format ('\r\n').
+        newlines to DOS format ('\\r\\n').
 
         [1] http://www.loc.gov/marc/makrbrkr.html#mechanics
         [2] http://search.cpan.org/~eijabb/MARC-File-MARCMaker/
@@ -121,18 +117,12 @@ class Field(Iterator):
                 break
             num_code -= 1
 
-    def __next__(self):
-        """
-        Needed for iteration.
-        """
+    def __iter__(self):
         if not hasattr(self, 'subfields'):
-            raise StopIteration
-        while self.__pos < len(self.subfields):
-            subfield = (self.subfields[ self.__pos ],
-                self.subfields[ self.__pos+1 ])
-            self.__pos += 2
-            return subfield
-        raise StopIteration
+            return iter(())
+        codes = itertools.islice(self.subfields, 0, None, 2)
+        values = itertools.islice(self.subfields, 1, None, 2)
+        return six.moves.zip(codes, values)
 
     def value(self):
         """
