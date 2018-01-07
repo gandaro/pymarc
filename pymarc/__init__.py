@@ -1,5 +1,3 @@
-# __init__.py
-
 r'''
 
 The pymarc module provides an API for reading, writing and modifying
@@ -67,8 +65,3 @@ from .writer import *
 from .constants import *
 from .marc8 import marc8_to_unicode, MARC8ToUnicode
 from .marcxml import *
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-
