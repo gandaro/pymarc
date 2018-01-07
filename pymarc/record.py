@@ -49,8 +49,8 @@ class Record(Iterator):
     """
 
     def __init__(self, data='', to_unicode=True, force_utf8=False,
-        hide_utf8_warnings=False, utf8_handling='strict',
-        leader=' ' * LEADER_LEN):
+                 hide_utf8_warnings=False, utf8_handling='strict',
+                 leader=' ' * LEADER_LEN):
         self.leader = leader[0:10] + '22' + leader[12:20] + '4500'
         self.fields = list()
         self.pos = 0
@@ -200,7 +200,7 @@ class Record(Iterator):
         return [f for f in self.fields if f.tag in args]
 
     def decode_marc(self, marc, to_unicode=True, force_utf8=False,
-        hide_utf8_warnings=False, utf8_handling='strict'):
+                    hide_utf8_warnings=False, utf8_handling='strict'):
         """
         decode_marc() accepts a MARC record in transmission format as a
         a string argument, and will populate the object based on the data
@@ -243,8 +243,7 @@ class Record(Iterator):
             entry_tag = entry[0:3]
             entry_length = int(entry[3:7])
             entry_offset = int(entry[7:12])
-            entry_data = marc[base_address + entry_offset :
-                base_address + entry_offset + entry_length - 1]
+            entry_data = marc[base_address+entry_offset : base_address+entry_offset+entry_length-1]
 
             # assume controlfields are numeric; replicates ruby-marc behavior
             if entry_tag < '010' and entry_tag.isdigit():
@@ -297,15 +296,15 @@ class Record(Iterator):
                     subfields.append(data)
                 if to_unicode:
                     field = Field(
-                        tag = entry_tag,
-                        indicators = [first_indicator, second_indicator],
-                        subfields = subfields,
+                        tag=entry_tag,
+                        indicators=[first_indicator, second_indicator],
+                        subfields=subfields,
                     )
                 else:
                     field = RawField(
-                        tag = entry_tag,
-                        indicators = [first_indicator, second_indicator],
-                        subfields = subfields,
+                        tag=entry_tag,
+                        indicators=[first_indicator, second_indicator],
+                        subfields=subfields,
                     )
             self.add_field(field)
             field_count += 1
@@ -454,9 +453,11 @@ class Record(Iterator):
         Note: Fields 690-699 are considered "local" added entry fields but
         occur with some frequency in OCLC and RLIN records.
         """
-        subjlist = self.get_fields('600', '610', '611', '630', '648', '650',
-            '651', '653', '654', '655', '656', '657', '658', '662', '690',
-            '691', '696', '697', '698', '699')
+        subjlist = self.get_fields(
+            '600', '610', '611', '630', '648', '650', '651', '653', '654',
+            '655', '656', '657', '658', '662', '690', '691', '696', '697',
+            '698', '699'
+        )
         return subjlist
 
     def addedentries(self):
@@ -464,9 +465,10 @@ class Record(Iterator):
         Note: Fields 790-799 are considered "local" added entry fields but
         occur with some frequency in OCLC and RLIN records.
         """
-        aelist = self.get_fields('700', '710', '711', '720', '730', '740',
-            '752', '753', '754', '790', '791', '792', '793', '796', '797',
-            '798', '799')
+        aelist = self.get_fields(
+            '700', '710', '711', '720', '730', '740', '752', '753', '754',
+            '790', '791', '792', '793', '796', '797', '798', '799'
+        )
         return aelist
 
     def location(self):
@@ -477,14 +479,15 @@ class Record(Iterator):
         """
         Return all 5xx fields in an array.
         """
-        notelist = self.get_fields('500', '501', '502', '504', '505',
-            '506', '507', '508', '510', '511', '513', '514', '515',
-            '516', '518', '520', '521', '522', '524', '525', '526',
-            '530', '533', '534', '535', '536', '538', '540', '541',
-            '544', '545', '546', '547', '550', '552', '555', '556',
-            '561', '562', '563', '565', '567', '580', '581', '583',
-            '584', '585', '586', '590', '591', '592', '593', '594',
-            '595', '596', '597', '598', '599')
+        notelist = self.get_fields(
+            '500', '501', '502', '504', '505', '506', '507', '508', '510',
+            '511', '513', '514', '515', '516', '518', '520', '521', '522',
+            '524', '525', '526', '530', '533', '534', '535', '536', '538',
+            '540', '541', '544', '545', '546', '547', '550', '552', '555',
+            '556', '561', '562', '563', '565', '567', '580', '581', '583',
+            '584', '585', '586', '590', '591', '592', '593', '594', '595',
+            '596', '597', '598', '599'
+        )
         return notelist
 
     def physicaldescription(self):

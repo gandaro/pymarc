@@ -65,7 +65,7 @@ class MARC8ToUnicode:
             # http://www.loc.gov/marc/specifications/speccharmarc8.html
             if marc8_string[pos:pos+1] == b'\x1b':
                 next_byte = marc8_string[pos+1:pos+2]
-                if (next_byte in self.g0_set):
+                if next_byte in self.g0_set:
                     if len(marc8_string) >= pos + 3:
                         if marc8_string[pos+2:pos+3] == b',' and next_byte == b'$':
                             pos += 1
@@ -112,8 +112,7 @@ class MARC8ToUnicode:
                 code_point = ord(marc8_string[pos:pos+1])
                 pos += 1
 
-            if (code_point < 0x20 or
-                (code_point > 0x80 and code_point < 0xa0)):
+            if code_point < 0x20 or (code_point > 0x80 and code_point < 0xa0):
                 uni = unichr(code_point)
                 continue
 
@@ -132,8 +131,9 @@ class MARC8ToUnicode:
                 except KeyError:
                     pass
                 if not self.quiet:
-                    sys.stderr.write("couldn't find 0x%x in g0=%s g1=%s\n" %
-                        (code_point, self.g0, self.g1))
+                    sys.stderr.write(
+                        "couldn't find 0x%x in g0=%s g1=%s\n" % (code_point, self.g0, self.g1)
+                    )
                 uni = ord(' ')
                 cflag = False
 
