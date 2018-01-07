@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import json
 import unittest
-import pymarc
-
-try:
-    import json
-except ImportError:
-    import simplejson as json
 
 from six import string_types as basestring
+
+import pymarc
 
 class JsonReaderTest(unittest.TestCase):
     def setUp(self):

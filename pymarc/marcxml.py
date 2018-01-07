@@ -1,16 +1,11 @@
 "pymarc marcxml file."
 
-import logging
+import xml.etree.ElementTree as etree
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler, feature_namespaces
 import unicodedata
 
 import six
-
-try:
-    import xml.etree.ElementTree as ET  # builtin in Python 2.5
-except ImportError:
-    import elementtree.ElementTree as ET
 
 from pymarc import Record, Field, MARC8ToUnicode
 
@@ -28,6 +23,7 @@ class XmlHandler(ContentHandler):
     them all in memory.
     """
     def __init__(self, strict=False, normalize_form=None):
+        super(XmlHandler, self).__init__()
         self.records = []
         self._record = None
         self._field = None
@@ -129,7 +125,7 @@ def parse_xml_to_array(xml_file, strict=False, normalize_form=None):
 
 def record_to_xml(record, quiet=False, namespace=False):
     node = record_to_xml_node(record, quiet, namespace)
-    return ET.tostring(node)
+    return etree.tostring(node)
 
 def record_to_xml_node(record, quiet=False, namespace=False):
     """
@@ -142,30 +138,30 @@ def record_to_xml_node(record, quiet=False, namespace=False):
     # TODO: maybe should set g0 and g1 appropriately using 066 $a and $b?
     marc8 = MARC8ToUnicode(quiet=quiet)
     def translate(data):
-        if type(data) == six.text_type:
+        if isinstance(data, six.text_type):
             return data
         else:
             return marc8.translate(data)
 
-    root = ET.Element('record')
+    root = etree.Element('record')
     if namespace:
         root.set('xmlns', MARC_XML_NS)
         root.set('xmlns:xsi', XSI_NS)
         root.set('xsi:schemaLocation', MARC_XML_SCHEMA)
-    leader = ET.SubElement(root, 'leader')
+    leader = etree.SubElement(root, 'leader')
     leader.text = record.leader
     for field in record:
         if field.is_control_field():
-            control_field = ET.SubElement(root, 'controlfield')
+            control_field = etree.SubElement(root, 'controlfield')
             control_field.set('tag', field.tag)
             control_field.text = translate(field.data)
         else:
-            data_field = ET.SubElement(root, 'datafield')
+            data_field = etree.SubElement(root, 'datafield')
             data_field.set('tag', field.tag)
             data_field.set('ind1', field.indicators[0])
             data_field.set('ind2', field.indicators[1])
             for subfield in field:
-                data_subfield = ET.SubElement(data_field, 'subfield')
+                data_subfield = etree.SubElement(data_field, 'subfield')
                 data_subfield.set('code', subfield[0])
                 data_subfield.text = translate(subfield[1])
 

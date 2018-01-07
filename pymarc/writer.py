@@ -1,22 +1,8 @@
+import json
+import xml.etree.ElementTree as etree
+
 import pymarc
 from pymarc import Record, WriteNeedsRecord
-
-try:
-    import xml.etree.ElementTree as ET  # builtin in Python 2.5
-except ImportError:
-    import elementtree.ElementTree as ET
-
-try:
-    # the json module was included in the stdlib in python 2.6
-    # http://docs.python.org/library/json.html
-    import json
-except ImportError:
-    # simplejson 2.0.9 is available for python 2.4+
-    # http://pypi.python.org/pypi/simplejson/2.0.9
-    # simplejson 1.7.3 is available for python 2.3+
-    # http://pypi.python.org/pypi/simplejson/1.7.3
-    import simplejson as json
-
 
 class Writer(object):
 
@@ -220,7 +206,7 @@ class XMLWriter(Writer):
         """
         Writer.write(self, record)
         node = pymarc.record_to_xml_node(record)
-        self.file_handle.write(ET.tostring(node, encoding='utf-8'))
+        self.file_handle.write(etree.tostring(node, encoding='utf-8'))
 
     def close(self, close_fh=True):
         """

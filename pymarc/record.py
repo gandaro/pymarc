@@ -1,7 +1,8 @@
-import re
-import six
+import json
 import logging
+import re
 
+import six
 from six import Iterator
 
 from pymarc.exceptions import BaseAddressInvalid, RecordLeaderInvalid, \
@@ -13,19 +14,6 @@ from pymarc.field import Field, SUBFIELD_INDICATOR, END_OF_FIELD, \
 from pymarc.marc8 import marc8_to_unicode
 
 izip_longest = six.moves.zip_longest
-
-try:
-    # the json module was included in the stdlib in python 2.6
-    # http://docs.python.org/library/json.html
-    import json
-except ImportError:
-    # simplejson 2.0.9 is available for python 2.4+
-    # http://pypi.python.org/pypi/simplejson/2.0.9
-    # simplejson 1.7.3 is available for python 2.3+
-    # http://pypi.python.org/pypi/simplejson/1.7.3
-    import simplejson as json
-
-
 isbn_regex = re.compile(r'([0-9\-xX]+)')
 
 @six.python_2_unicode_compatible
@@ -206,7 +194,7 @@ class Record(Iterator):
         If no tag is passed in to get_fields() a list of all the fields will be
         returned.
         """
-        if (len(args) == 0):
+        if not args:
             return self.fields
 
         return [f for f in self.fields if f.tag in args]

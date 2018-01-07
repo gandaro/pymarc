@@ -1,19 +1,11 @@
-import unittest
-import pymarc
+import json
 import os
 import textwrap
+import unittest
+
 from six import BytesIO, StringIO, u, binary_type
 
-try:
-    # the json module was included in the stdlib in python 2.6
-    # http://docs.python.org/library/json.html
-    import json
-except ImportError:
-    # simplejson 2.0.9 is available for python 2.4+
-    # http://pypi.python.org/pypi/simplejson/2.0.9
-    # simplejson 1.7.3 is available for python 2.3+
-    # http://pypi.python.org/pypi/simplejson/1.7.3
-    import simplejson as json
+import pymarc
 
 
 class JSONWriterTest(unittest.TestCase):
