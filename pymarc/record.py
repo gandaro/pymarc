@@ -110,14 +110,7 @@ class Record(Iterator):
         return len(fields) > 0
 
     def __iter__(self):
-        self.__pos = 0
-        return self
-
-    def __next__(self):
-        if self.__pos >= len(self.fields):
-            raise StopIteration
-        self.__pos += 1
-        return self.fields[self.__pos - 1]
+        return iter(self.fields)
 
     def add_field(self, *fields):
         """
