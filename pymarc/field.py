@@ -242,7 +242,7 @@ class RawField(Field):
         used during conversion of a field to raw marc
         """
         if encoding is not None:
-            logging.warn("Attempt to force a RawField into encoding %s", encoding)
+            logging.warning("Attempt to force a RawField into encoding %s", encoding)
         if self.is_control_field():
             return self.data + END_OF_FIELD
         marc = self.indicator1.encode('ascii') + self.indicator2.encode('ascii')
