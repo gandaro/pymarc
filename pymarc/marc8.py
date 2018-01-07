@@ -27,7 +27,7 @@ def marc8_to_unicode(marc8, hide_utf8_warnings=False):
         raise UnicodeDecodeError("marc8_to_unicode", marc8, 0, len(marc8), "invalid multibyte character encoding")
 
 
-class MARC8ToUnicode:
+class MARC8ToUnicode(object):
     """
     Converts MARC-8 to Unicode.  Note that currently, unicode strings
     aren't normalized, and some codecs (e.g. iso8859-1) will fail on
