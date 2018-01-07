@@ -1,10 +1,7 @@
 import unittest
 
-from pymarc.reader import MARCReader
-from pymarc.record import Record
-from pymarc.field import Field
-from pymarc.exceptions import BaseAddressInvalid, RecordLeaderInvalid, \
-        FieldNotFound
+from pymarc import MARCReader, Record, Field, BaseAddressInvalid, \
+    RecordLeaderInvalid, FieldNotFound
 
 class RecordTest(unittest.TestCase):
 

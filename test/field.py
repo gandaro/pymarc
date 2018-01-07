@@ -1,7 +1,7 @@
 import unittest
 import sys
 
-from pymarc.field import Field
+from pymarc import Field
 
 class FieldTest(unittest.TestCase):
 

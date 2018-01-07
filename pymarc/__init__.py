@@ -56,12 +56,16 @@ by writing to the author.
 
 '''
 
-
-from .record import *
-from .field import *
-from .exceptions import *
-from .reader import *
-from .writer import *
-from .constants import *
+from .record import Record, map_marc8_record
+from .field import Field, RawField, map_marc8_field
+from .exceptions import PymarcException, RecordLengthInvalid, \
+    RecordLeaderInvalid, RecordDirectoryInvalid, NoFieldsFound, \
+    BaseAddressInvalid, BaseAddressNotFound, WriteNeedsRecord, \
+    NoActiveFile, FieldNotFound
+from .reader import Reader, MARCReader, JSONReader, map_records
+from .writer import Writer, JSONWriter, MARCWriter, TextWriter, XMLWriter
+from .constants import LEADER_LEN, DIRECTORY_ENTRY_LEN, SUBFIELD_INDICATOR, \
+    END_OF_FIELD, END_OF_RECORD
 from .marc8 import marc8_to_unicode, MARC8ToUnicode
-from .marcxml import *
+from .marcxml import XmlHandler, parse_xml, map_xml, parse_xml_to_array, \
+    record_to_xml, record_to_xml_node
