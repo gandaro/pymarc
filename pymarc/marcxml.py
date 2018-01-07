@@ -1,5 +1,3 @@
-"pymarc marcxml file."
-
 import xml.etree.ElementTree as etree
 from xml.sax import make_parser
 from xml.sax.handler import ContentHandler, feature_namespaces

@@ -1,5 +1,3 @@
-"The pymarc.field file."
-
 import itertools
 import logging
 

@@ -1,11 +1,11 @@
 # see http://www.loc.gov/marc/specifications/speccharmarc8.html
-"pymarc marc8.py file."
 
 import sys
 import unicodedata
 
 from six import unichr
 from pymarc import marc8_mapping
+
 
 def marc8_to_unicode(marc8, hide_utf8_warnings=False):
     """
